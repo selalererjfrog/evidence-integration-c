@@ -94,6 +94,20 @@ jobs:
         docker pull ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
         docker images ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
 
+    - name: Free disk space for vulnerability scan
+      run: |
+        echo "📦 Disk usage before cleanup:"
+        df -h
+        echo "🧹 Removing large, unused SDKs and caches to free space..."
+        sudo rm -rf /usr/local/lib/android/sdk || true
+        sudo rm -rf /usr/local/lib/android || true
+        sudo rm -rf /usr/share/dotnet || true
+        sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+        docker system prune -af || true
+        docker builder prune -af || true
+        echo "📦 Disk usage after cleanup:"
+        df -h
+
     - name: Run Grype scan
       id: grype
       uses: anchore/scan-action@v6
