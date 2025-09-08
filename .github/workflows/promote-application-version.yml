@@ -15,7 +15,7 @@ jobs:
       TARGET_STAGE: 'QA'
       JFROG_CLI_KEY_ALIAS: ${{ vars.JFROG_CLI_KEY_ALIAS }}
       JFROG_CLI_SIGNING_KEY: ${{ secrets.JFROG_CLI_SIGNING_KEY }}
-      DOCKER_REGISTRY: apptrustswampup.jfrog.io/quotopia-qa-docker
+      DOCKER_REGISTRY: apptrustswampupc.jfrog.io/quotopia-qa-docker
 
     steps:
       - name: Checkout code
