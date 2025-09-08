@@ -60,7 +60,7 @@ jobs:
       run: |
         cd quotopia-ui
         # Pull the image for testing
-        jf docker pull ${{ env.DOCKER_REGISTRY }}/quotopia-ui:${{ github.run_number }}
+        docker pull ${{ env.DOCKER_REGISTRY }}/quotopia-ui:${{ github.run_number }}
         
         # Run container with better debugging
         jf docker run -d --name test-ui-container -p 8080:80 ${{ env.DOCKER_REGISTRY }}/quotopia-ui:${{ github.run_number }}
