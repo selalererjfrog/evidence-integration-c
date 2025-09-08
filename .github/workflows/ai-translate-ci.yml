@@ -28,28 +28,20 @@ jobs:
       with:
         python-version: '3.11'
         cache: 'pip'
-        
-    - name: Cache pip packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-test-${{ hashFiles('translate/requirements-optimized.txt') }}-${{ hashFiles('translate/requirements-dev.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-test-${{ hashFiles('translate/requirements-optimized.txt') }}
-          ${{ runner.os }}-pip-test
+        cache-dependency-path: |
+          translate/requirements-optimized.txt
+          translate/requirements-dev.txt
+
 
     - name: Install dependencies and run tests
       run: |
         cd translate
         # Install only production dependencies for testing
-        pip install --no-cache-dir -r requirements-optimized.txt
+        pip install -r requirements-optimized.txt
         # Install minimal test dependencies
-        pip install --no-cache-dir pytest pytest-asyncio
+        pip install pytest pytest-asyncio
         python -m pytest tests/ -v --tb=short
-        
-    - name: Cleanup pip cache
-      run: |
-        pip cache purge
+
 
   build:
     name: Build Docker Image
