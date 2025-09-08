@@ -128,8 +128,8 @@ jobs:
       with:
         projectBaseDir: quoteofday/
         args: >
-          -Dsonar.organization=sela-org1
-          -Dsonar.projectKey=sela-org1_evidence-test
+          -Dsonar.organization=my-evidence-test-org1
+          -Dsonar.projectKey=my-evidence-test-org1_evidence-integration
           -Dsonar.java.binaries=target/classes
           -Dsonar.qualitygate.wait=false
 
