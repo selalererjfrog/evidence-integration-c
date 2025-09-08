@@ -1,0 +1,21 @@
+{
+  "name": "e2e-tests",
+  "version": "1.0.0",
+  "description": "E2E tests using Cypress for quoteofday service and Quotopia UI",
+  "scripts": {
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "test": "cypress run --spec 'cypress/e2e/quote-service.cy.js'",
+    "test:headless": "cypress run --spec 'cypress/e2e/quote-service.cy.js' --headless",
+    "test:e2e": "cypress run --spec 'cypress/e2e/end-to-end-quotopia.cy.js'",
+    "test:e2e:headless": "cypress run --spec 'cypress/e2e/end-to-end-quotopia.cy.js' --headless",
+    "test:all": "cypress run --spec 'cypress/e2e/**/*.cy.js'",
+    "test:report": "npm run test:all && node generate-test-report.js",
+    "test:service:report": "npm run test && node generate-test-report.js",
+    "test:e2e:report": "npm run test:e2e && node generate-test-report.js",
+    "report": "node generate-test-report.js"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  }
+}

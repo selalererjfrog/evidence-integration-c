@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  quote-service:
+    image: evidencetrial.jfrog.io/commons-qa-docker-local/quoteofday:121
+    container_name: quote-service-qa
+    ports:
+      - "8001:8001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/api/quotes/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+      
+  translation-service:
+    image: evidencetrial.jfrog.io/commons-qa-docker-local/ai-translate:38
+    container_name: translation-service-qa
+    ports:
+      - "8002:8002"
+    volumes:
+      - model-cache:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      
+  e2e-tests:
+    image: cypress/included:13.6.0
+    container_name: e2e-test-runner-qa
+    depends_on:
+      quote-service:
+        condition: service_healthy
+      translation-service:
+        condition: service_healthy
+    environment:
+      - QUOTE_SERVICE_URL=http://quote-service:8001
+      - TRANSLATION_SERVICE_URL=http://translation-service:8002
+    volumes:
+      - .:/app/tests
+      - npm-cache:/root/.npm
+      - cypress-cache:/root/.cache/Cypress
+    working_dir: /app/tests
+    command: ./run-cypress.sh
+      
+volumes:
+  model-cache:
+  npm-cache:
+  cypress-cache:
+    
+networks:
+  default:
+    name: e2e-test-network

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-translate
+  labels:
+    app: ai-translate
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-translate
+  template:
+    metadata:
+      labels:
+        app: ai-translate
+    spec:
+      containers:
+      - name: ai-translate-container
+        image: apptrustswampupc.jfrog.io/quotopia-prod-docker/ai-translate:72 
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: apptrustswampupc

@@ -1,0 +1,11 @@
+version: 1
+type: maven
+resolver:
+    serverId: evidence-demo
+    snapshotRepo: evidence-demo-libs-snapshot
+    releaseRepo: evidence-demo-libs-release
+deployer:
+    serverId: evidence-demo
+    snapshotRepo: evidence-demo-libs-snapshot
+    releaseRepo: evidence-demo-libs-release
+useWrapper: true

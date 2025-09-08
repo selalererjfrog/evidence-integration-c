@@ -1,0 +1,8 @@
+<develocity>
+  <server>
+    <url>https://develocity-field.gradle.com</url>
+  </server>
+  <buildScan>
+    <backgroundBuildScanUpload>#{env['CI'] == null}</backgroundBuildScanUpload>
+  </buildScan>
+</develocity>

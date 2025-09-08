@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoteofday
+  labels:
+    app: quoteofday
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quoteofday
+  template:
+    metadata:
+      labels:
+        app: quoteofday
+    spec:
+      containers:
+      - name: quoteofday-container
+        image: apptrustswampupc.jfrog.io/quotopia-prod-docker/quoteofday:240
+        ports:
+        - containerPort: 8001
+      imagePullSecrets:
+        - name: apptrustswampupc

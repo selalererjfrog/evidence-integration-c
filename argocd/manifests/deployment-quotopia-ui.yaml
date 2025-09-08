@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotopia-ui
+  labels:
+    app: quotopia-ui
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotopia-ui
+  template:
+    metadata:
+      labels:
+        app: quotopia-ui
+    spec:
+      containers:
+      - name: quotopia-ui-container
+        image: apptrustswampupc.jfrog.io/quotopia-prod-docker/quotopia-ui:57 
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: apptrustswampupc

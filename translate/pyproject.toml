@@ -1,0 +1,129 @@
+[build-system]
+requires = ["setuptools>=78.1.1", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "translation-service"
+dynamic = ["version"]
+description = "A REST API service for English to French and Hebrew translation using Hugging Face models"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "JFrog Evidence Demo", email = "demo@jfrog.com"}
+]
+maintainers = [
+    {name = "JFrog Evidence Demo", email = "demo@jfrog.com"}
+]
+keywords = ["translation", "nlp", "huggingface", "fastapi", "rest-api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "transformers>=4.30.0",
+    "torch>=2.0.1",
+    "pydantic>=2.5.0",
+    "python-multipart>=0.0.6",
+    "aiohttp>=3.9.1",
+    # Updated to fix CVE-2025-47273 (setuptools path traversal)
+    "setuptools>=78.1.1",
+    # Updated to fix CVE-2025-43859 (h11 request smuggling)
+    "h11>=0.16.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "httpx>=0.24.1",
+]
+
+[project.scripts]
+translation-service = "simple_app:main"
+
+[project.urls]
+Homepage = "https://github.com/jfrog/evidence-integration"
+Repository = "https://github.com/jfrog/evidence-integration"
+Documentation = "https://github.com/jfrog/evidence-integration/blob/main/translate/README.md"
+Issues = "https://github.com/jfrog/evidence-integration/issues"
+
+[tool.setuptools_scm]
+write_to = "translation_service/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["translation_service*"]
+
+# Security: Pin vulnerable dependencies to secure versions
+[tool.setuptools.dynamic]
+version = {attr = "translation_service._version.__version__"}
+
+# Security constraints to fix known vulnerabilities
+[tool.setuptools.dynamic.dependencies]
+# CVE-2025-47273: setuptools path traversal vulnerability
+setuptools = ">=78.1.1"
+# CVE-2025-43859: h11 request smuggling vulnerability
+h11 = "==0.16.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "transformers.*",
+    "torch.*",
+]
+ignore_missing_imports = true
