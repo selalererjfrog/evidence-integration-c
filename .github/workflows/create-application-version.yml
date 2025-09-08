@@ -56,6 +56,12 @@ jobs:
           echo "latest_quotopia_ui_build_number=$LATEST_QUOTOPIA_UI_BUILD_NUMBER" >> $GITHUB_OUTPUT
           echo "Found latest quotopia-ui build number: $LATEST_QUOTOPIA_UI_BUILD_NUMBER"  
           
+          LATEST_AI_TRANSLATE_BUILD_NUMBER=$(getBuildNumber ai-translate)
+          [ $? -ne 0 ] && echo "$LATEST_AI_TRANSLATE_BUILD_NUMBER" && exit 1
+          
+          echo "latest_ai_translate_build_number=$LATEST_AI_TRANSLATE_BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "Found latest ai-translate build number: $LATEST_AI_TRANSLATE_BUILD_NUMBER"
+
       - name: Get latest application version
         id: get_app_ver
         run: |
@@ -109,6 +115,7 @@ jobs:
           set +e
           QUOTEOFDAY_BUILD_NUMBER="${{ steps.get-latest-builds.outputs.latest_quoteofday_build_number }}"
           QUOTOPIA_UI_BUILD_NUMBER="${{ steps.get-latest-builds.outputs.latest_quotopia_ui_build_number }}"
+          AI_TRANSLATE_BUILD_NUMBER="${{ steps.get-latest-builds.outputs.latest_ai_translate_build_number }}"
   
           echo "APP_ID=$APP_ID"
           LATEST_VER="${{ steps.get_app_ver.outputs.app_ver }}"
@@ -118,7 +125,8 @@ jobs:
   
           REQUEST_BODY="{\"version\": \"$NEXT_VER\", \"sources\": {\"builds\": [\
           {\"name\":\"quoteofday\", \"number\":\"$QUOTEOFDAY_BUILD_NUMBER\", \"include_dependencies\":false},\
-          {\"name\":\"quotopia-ui\", \"number\":\"$QUOTOPIA_UI_BUILD_NUMBER\", \"include_dependencies\":false}\
+          {\"name\":\"quotopia-ui\", \"number\":\"$QUOTOPIA_UI_BUILD_NUMBER\", \"include_dependencies\":false},\
+          {\"name\":\"ai-translate\", \"number\":\"$AI_TRANSLATE_BUILD_NUMBER\", \"include_dependencies\":false}\
           ]}}"
           echo "REQUEST_BODY=$REQUEST_BODY"
 
