@@ -68,8 +68,6 @@ jobs:
         jf mvnc --server-id-resolve evidence-demo --server-id-deploy evidence-demo --repo-resolve-releases evidence-demo-libs-release --repo-resolve-snapshots evidence-demo-libs-snapshot --repo-deploy-releases evidence-demo-libs-release --repo-deploy-snapshots evidence-demo-libs-snapshot
       
     - name: Build and Deploy to Artifactory
-      env:
-        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       run: |
         cd quoteofday
         # Replace SNAPSHOT with GitHub run number for versioning
@@ -77,7 +75,7 @@ jobs:
         echo "📦 Updated version to 1.0.0-${{ github.run_number }}"
         
         # Build and deploy to Artifactory
-        jf mvn deploy -Dscan=true -q --batch-mode --no-transfer-progress --build-name quoteofday --build-number ${{ github.run_number }}
+        jf mvn deploy -Dscan=false -q --batch-mode --no-transfer-progress --build-name quoteofday --build-number ${{ github.run_number }}
         
     - name: Get artifact SHA256
       id: get_sha256
@@ -104,18 +102,18 @@ jobs:
         echo "Retrieved SHA256: ${SHA256}"
         echo "sha256=${SHA256}" >> $GITHUB_OUTPUT
 
-    - name: Gradle Develociity Scan
-      uses: gradle/develocity-provenance-governor-actions/publish@v0.5.0
-      with:
-        attestation-publisher-url: 'https://develocity-provenance-governor.sdlc-demo.gradle.com'
-        tenant: default
-        build-scan-queries: 'value:"CI run=${{ github.run_id }}"'
-        subject-type: maven
-        subject-namespace: com.example
-        subject-name: quote-of-day-service
-        subject-version: 1.0.0-${{ github.run_number }}
-        subject-digest: ${{ steps.get_sha256.outputs.sha256 }}
-        subject-repository-url: apptrustswampup.jfrog.io/evidence-demo-libs-release-local 
+#    - name: Gradle Develociity Scan
+#      uses: gradle/develocity-provenance-governor-actions/publish@v0.5.0
+#      with:
+#        attestation-publisher-url: 'https://develocity-provenance-governor.sdlc-demo.gradle.com'
+#        tenant: default
+#        build-scan-queries: 'value:"CI run=${{ github.run_id }}"'
+#        subject-type: maven
+#        subject-namespace: com.example
+#        subject-name: quote-of-day-service
+#        subject-version: 1.0.0-${{ github.run_number }}
+#        subject-digest: ${{ steps.get_sha256.outputs.sha256 }}
+#        subject-repository-url: apptrustswampup.jfrog.io/evidence-demo-libs-release-local 
 
     - name: Compile java for Sonar scan
       run: |
