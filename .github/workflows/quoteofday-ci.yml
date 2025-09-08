@@ -3,7 +3,7 @@ name: Quote of Day Service CI
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'quoteofday/**'
       - '.github/workflows/quoteofday-ci.yml'
