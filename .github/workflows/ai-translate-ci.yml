@@ -92,7 +92,9 @@ jobs:
       run: |
         echo "🔍 Verifying Docker image..."
         docker pull ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
+        echo "Running docker images ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}..."
         docker images ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
+        echo "Finished"
 
     - name: Free disk space for vulnerability scan
       run: |
