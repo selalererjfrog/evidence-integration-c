@@ -241,10 +241,10 @@ jobs:
         run: |
           echo "📋 Creating evidence from test results..."
           cd e2e-tests
-          echo "jf evd create --release-bundle quotopia-app --release-bundle-version ${{ steps.get_app_ver.outputs.app_ver }} --project quotopiai-app \
+          echo "jf evd create --release-bundle quotopia-app --release-bundle-version ${{ steps.get_app_ver.outputs.app_ver }} --project quotopia-app \
             --predicate-type https://cypress.io/evidence/e2e/v1 --predicate test-report.json --markdown test-report.md --provider-id cypress"
 
-          jf evd create --release-bundle quotopia-app --release-bundle-version ${{ steps.get_app_ver.outputs.app_ver }} --project quotopiai-app \
+          jf evd create --release-bundle quotopia-app --release-bundle-version ${{ steps.get_app_ver.outputs.app_ver }} --project quotopia-app \
             --predicate-type https://cypress.io/evidence/e2e/v1 --predicate test-report.json --markdown test-report.md --provider-id cypress 
                    
           echo "✅ Evidence created successfully"
