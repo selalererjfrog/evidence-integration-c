@@ -44,7 +44,7 @@ spec:
           - |
             # These 2 below will be automatically replaced by the release-application-version.yml GitHub workflow
             EVD_DEMO_APP_NAME=quotopia-app
-            EVD_DEMO_APP_VER=6
+            EVD_DEMO_APP_VER=5
 
             echo "JF secrets:"
             ls -l /etc/jfsecrets
