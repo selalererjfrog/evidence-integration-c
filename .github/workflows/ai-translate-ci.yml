@@ -91,7 +91,7 @@ jobs:
     - name: Verify Docker image
       run: |
         echo "🔍 Verifying Docker image..."
-        docker pull ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
+        docker pull ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }} --progress=plain
         echo "Running docker images ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}..."
         docker images ${{ env.DOCKER_REGISTRY }}/ai-translate:${{ github.run_number }}
         echo "Finished"
