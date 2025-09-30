@@ -179,7 +179,7 @@ jobs:
         echo "📋 Creating evidence from test results..."
         cd e2e-tests
         jf evd create \
-          --subject-repo-path quotopia-release-bundles-v2/quotopia-app/24/release-bundle.json.evd \
+          --subject-repo-path quotopia-app-release-bundles-v2/quotopia-app/24/release-bundle.json.evd \
           --predicate-type https://cypress.io/evidence/e2e/v1 --predicate test-report.json --markdown test-report.md \
           --provider-id cypress 
                  
