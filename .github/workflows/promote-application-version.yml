@@ -61,7 +61,7 @@ jobs:
           APP_VER=${{ steps.get_app_ver.outputs.app_ver }}
           REQUEST_BODY="{\"target_stage\":\"$TARGET_STAGE\"}"
           
-          PROMOTION_URL="$JF_URL/apptrust/api/v1/applications/$APP_ID/versions/$APP_VER/promote"
+          PROMOTION_URL="$JF_URL/apptrust/api/v1/applications/$APP_ID/versions/$APP_VER/promote?async=false"
           echo "Promoting application '$APP_ID' version $APP_VER to stage $TARGET_STAGE..."
           
           STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
